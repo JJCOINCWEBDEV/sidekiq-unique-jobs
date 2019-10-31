@@ -66,6 +66,12 @@ module SidekiqUniqueJobs
     case ex.message
     when /uninitialized constant/
       worker_class
+    when /wrong constant name/
+      if worker_class.start_with?("MpApi")
+        worker_class
+      else
+        raise
+      end
     else
       raise
     end
